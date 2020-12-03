@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
-
+import { useRouter } from 'next/router';
 const Root = styled.div`
   #file {
     display: none;
@@ -17,6 +17,7 @@ interface Props {
   className?: string;
 }
 const UploadForm: React.FC<Props> = ({ className, ...props }) => {
+  const router = useRouter();
   const [loading, setLoading] = React.useState<boolean>(false);
   const [myFile, setMyFile] = React.useState<File | null>(null);
   const [artwork, setArtwork] = React.useState<ArtworkForm>({
@@ -29,6 +30,18 @@ const UploadForm: React.FC<Props> = ({ className, ...props }) => {
   });
   const refFileInput = React.useRef<HTMLInputElement>(null);
 
+  const clearPage = React.useCallback(() => {
+    setMyFile(null);
+    setArtwork({
+      title: '',
+      name: '',
+      material: '',
+      year: '',
+      width: '',
+      height: '',
+    });
+    setLoading(false);
+  }, []);
   const handleSubmit = React.useCallback(async () => {
     const formdata = new FormData();
     if (!myFile) return;
@@ -53,10 +66,11 @@ const UploadForm: React.FC<Props> = ({ className, ...props }) => {
       const resJson = await response.json();
       console.log(resJson);
       setLoading(false);
+      clearPage();
     } catch (err) {
       console.log('error', err);
     }
-  }, [myFile, artwork]);
+  }, [myFile, artwork, clearPage]);
 
   return (
     <Root className={className} {...props}>
@@ -76,6 +90,7 @@ const UploadForm: React.FC<Props> = ({ className, ...props }) => {
         <TextField
           id="standard-basic"
           label="Title"
+          value={artwork.title}
           onChange={(e) => {
             setArtwork({
               ...artwork,
@@ -88,6 +103,7 @@ const UploadForm: React.FC<Props> = ({ className, ...props }) => {
         <TextField
           id="standard-basic"
           label="Name"
+          value={artwork.name}
           onChange={(e) => {
             setArtwork({
               ...artwork,
@@ -100,6 +116,7 @@ const UploadForm: React.FC<Props> = ({ className, ...props }) => {
         <TextField
           id="standard-basic"
           label="Material"
+          value={artwork.material}
           onChange={(e) => {
             setArtwork({
               ...artwork,
@@ -112,6 +129,7 @@ const UploadForm: React.FC<Props> = ({ className, ...props }) => {
         <TextField
           id="standard-basic"
           label="Year"
+          value={artwork.year}
           onChange={(e) => {
             setArtwork({
               ...artwork,
@@ -124,6 +142,7 @@ const UploadForm: React.FC<Props> = ({ className, ...props }) => {
         <TextField
           id="standard-basic"
           label="width"
+          value={artwork.width}
           onChange={(e) => {
             setArtwork({
               ...artwork,
@@ -136,6 +155,7 @@ const UploadForm: React.FC<Props> = ({ className, ...props }) => {
         <TextField
           id="standard-basic"
           label="height"
+          value={artwork.height}
           onChange={(e) => {
             setArtwork({
               ...artwork,
@@ -162,6 +182,15 @@ const UploadForm: React.FC<Props> = ({ className, ...props }) => {
           disabled={loading}
         >
           submit
+        </Button>
+        <Button
+          variant="contained"
+          color="primary"
+          onClick={() => {
+            router.push('/');
+          }}
+        >
+          main
         </Button>
       </div>
     </Root>
