@@ -1,40 +1,38 @@
 import React from 'react';
 import styled from 'styled-components';
-import ListItem from '../components/ListItem';
+import Button from '@material-ui/core/Button';
+import { useRouter } from 'next/router';
 
-import { getArtworkList } from '@lib/artwork';
+const Root = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 0 auto;
+`;
 
-const Root = styled.div``;
+export default function Main() {
+  const router = useRouter();
 
-interface Props {
-  artworks: Artwork[];
-}
-const Home: React.FC<Props> = ({ artworks }) => {
   return (
     <Root>
-      {artworks.map((artwork) => (
-        <ListItem className="ListItem" artwork={artwork} key={artwork._id} />
-      ))}
+      <Button
+        variant="contained"
+        color="primary"
+        onClick={() => {
+          router.push('/list');
+        }}
+      >
+        List
+      </Button>
+      <Button
+        variant="contained"
+        color="primary"
+        onClick={() => {
+          router.push('/upload');
+        }}
+      >
+        upload
+      </Button>
     </Root>
   );
-};
-
-export async function getStaticProps() {
-  try {
-    const artworks = await getArtworkList();
-
-    return {
-      props: {
-        artworks,
-      },
-    };
-  } catch (err) {
-    return {
-      props: {
-        artworks: [],
-      },
-    };
-  }
 }
-
-export default Home;

@@ -6,7 +6,11 @@ const Root = styled.div``;
 
 export default function Detail({ artwork }: { artwork: Artwork | null }) {
   if (!artwork) return <div>not found</div>;
-  return <Root>{artwork.url}</Root>;
+  return (
+    <Root>
+      <img src={artwork.url} />
+    </Root>
+  );
 }
 
 export async function getStaticPaths() {

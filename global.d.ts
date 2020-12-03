@@ -10,16 +10,22 @@ declare global {
     file: any;
   }
 
-  interface Artwork {
-    _id: string;
-    url: string;
-    thumbUrl: string;
+  interface ArtworkForm {
     title: string;
     name: string;
     material: string;
+    year?: string;
+    width?: string;
+    height?: string;
+  }
+
+  interface Artwork extends ArtworkForm {
+    _id: string;
+    url: string;
     year?: number;
     width?: number;
     height?: number;
+    thumbUrl: string;
     created: Date;
     lastUpdated: Date;
   }
