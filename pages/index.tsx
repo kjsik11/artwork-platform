@@ -5,9 +5,14 @@ import { useRouter } from 'next/router';
 
 const Root = styled.div`
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
+  justify-content: center;
   align-items: center;
-  margin: 0 auto;
+  padding: 30px auto;
+  height: 100%;
+  .buttonBox {
+    margin: 10px;
+  }
 `;
 
 export default function Main() {
@@ -15,24 +20,30 @@ export default function Main() {
 
   return (
     <Root>
-      <Button
-        variant="contained"
-        color="primary"
-        onClick={() => {
-          router.push('/list');
-        }}
-      >
-        List
-      </Button>
-      <Button
-        variant="contained"
-        color="primary"
-        onClick={() => {
-          router.push('/upload');
-        }}
-      >
-        upload
-      </Button>
+      <div className="buttonBox">
+        <Button
+          variant="contained"
+          color="primary"
+          size="large"
+          onClick={() => {
+            router.push('/list');
+          }}
+        >
+          List
+        </Button>
+      </div>
+      <div className="buttonBox">
+        <Button
+          variant="contained"
+          color="primary"
+          size="large"
+          onClick={() => {
+            router.push('/upload');
+          }}
+        >
+          upload
+        </Button>
+      </div>
     </Root>
   );
 }

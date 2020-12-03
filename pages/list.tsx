@@ -27,7 +27,7 @@ const Root = styled.div`
     text-align: center;
     border: 1px solid #000;
     border-radius: 10px;
-    margin: 10px;
+    margin: 10px 10px 50px 10px;
   }
 `;
 

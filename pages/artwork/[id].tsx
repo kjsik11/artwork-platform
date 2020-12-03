@@ -5,18 +5,20 @@ import Button from '@material-ui/core/Button';
 import { useRouter } from 'next/router';
 
 const Root = styled.div`
-  margin: 30px 0;
+  height: 100%;
+
   display: flex;
   flex-direction: column;
   align-items: center;
-
+  justify-content: space-between;
   img {
+    margin: 30px 0;
     width: 30%;
     height: auto;
     border-radius: 10px;
   }
   .detailBox {
-    margin: 30px;
+    margin-bottom: 30px;
     width: 30%;
     border: 1px solid #000;
     border-radius: 10px;
