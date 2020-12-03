@@ -10,7 +10,7 @@ const Root = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: space-between;
+  justify-content: center;
   img {
     margin: 30px 0;
     width: 30%;
@@ -37,6 +37,9 @@ const Root = styled.div`
   .detail-main {
     margin-left: 5px;
   }
+  .buttonBox {
+    margin-bottom: 30px;
+  }
 `;
 
 export default function Detail({ artwork }: { artwork: Artwork | null }) {
@@ -58,15 +61,17 @@ export default function Detail({ artwork }: { artwork: Artwork | null }) {
           </div>
         </div>
       </div>
-      <Button
-        variant="contained"
-        color="primary"
-        onClick={() => {
-          router.push('/list');
-        }}
-      >
-        To List
-      </Button>
+      <div className="buttonBox">
+        <Button
+          variant="contained"
+          color="primary"
+          onClick={() => {
+            router.push('/list');
+          }}
+        >
+          To List
+        </Button>
+      </div>
     </Root>
   );
 }
