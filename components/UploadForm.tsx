@@ -12,10 +12,19 @@ const Root = styled.div`
   #file {
     display: none;
   }
+  .uploadBox {
+    text-align: center;
+    width: 213px;
+  }
+  .inputBox {
+    input {
+    }
+  }
   .filebox {
     width: 100%;
     margin: 10px 0;
     height: 30px;
+    text-align: left;
   }
   .top-buttonBox {
     display: flex;
@@ -27,6 +36,14 @@ const Root = styled.div`
   .selectButton {
     text-align: right;
   }
+  .errorBox {
+    width: 100%;
+    text-align: center;
+    font-weight: bold;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen,
+      Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    margin: 10px;
+  }
 `;
 
 interface Props {
@@ -36,6 +53,11 @@ const UploadForm: React.FC<Props> = ({ className, ...props }) => {
   const router = useRouter();
   const [loading, setLoading] = React.useState<boolean>(false);
   const [myFile, setMyFile] = React.useState<File | null>(null);
+  const [result, setResult] = React.useState<string>('');
+  const [fileResult, setFileResult] = React.useState<string>('');
+  const inputProps = {
+    fullWidth: true,
+  };
   const [artwork, setArtwork] = React.useState<ArtworkForm>({
     title: '',
     name: '',
@@ -57,12 +79,14 @@ const UploadForm: React.FC<Props> = ({ className, ...props }) => {
       height: '',
     });
     setLoading(false);
+    setFileResult('');
+    setResult('');
   }, []);
   const handleSubmit = React.useCallback(async () => {
     const formdata = new FormData();
-    if (!myFile) return;
+    if (!myFile) return setFileResult('Please input File');
     if (!artwork.title || !artwork.name || !artwork.material) {
-      return;
+      return setResult('Please fill in the title, name, material blanks');
     }
     formdata.append('image', myFile);
     formdata.append('title', artwork.title);
@@ -90,7 +114,7 @@ const UploadForm: React.FC<Props> = ({ className, ...props }) => {
 
   return (
     <Root className={className} {...props}>
-      <div>
+      <div className="uploadBox">
         <input
           ref={refFileInput}
           type="file"
@@ -103,7 +127,7 @@ const UploadForm: React.FC<Props> = ({ className, ...props }) => {
           }}
         />
 
-        <div>
+        <div className="inputBox">
           <TextField
             label="Title"
             value={artwork.title}
@@ -115,7 +139,7 @@ const UploadForm: React.FC<Props> = ({ className, ...props }) => {
             }}
           />
         </div>
-        <div>
+        <div className="inputBox">
           <TextField
             label="Name"
             value={artwork.name}
@@ -127,7 +151,7 @@ const UploadForm: React.FC<Props> = ({ className, ...props }) => {
             }}
           />
         </div>
-        <div>
+        <div className="inputBox">
           <TextField
             label="Material"
             value={artwork.material}
@@ -139,7 +163,7 @@ const UploadForm: React.FC<Props> = ({ className, ...props }) => {
             }}
           />
         </div>
-        <div>
+        <div className="inputBox">
           <TextField
             label="Year"
             value={artwork.year}
@@ -151,10 +175,11 @@ const UploadForm: React.FC<Props> = ({ className, ...props }) => {
             }}
           />
         </div>
-        <div>
+        <div className="inputBox">
           <TextField
             label="width"
             value={artwork.width}
+            inputProps={inputProps}
             onChange={(e) => {
               setArtwork({
                 ...artwork,
@@ -163,7 +188,7 @@ const UploadForm: React.FC<Props> = ({ className, ...props }) => {
             }}
           />
         </div>
-        <div>
+        <div className="inputBox">
           <TextField
             label="height"
             value={artwork.height}
@@ -175,7 +200,7 @@ const UploadForm: React.FC<Props> = ({ className, ...props }) => {
             }}
           />
         </div>
-        <div className="filebox">File: {myFile && myFile.name} </div>
+        <div className="filebox">File: {myFile ? myFile.name : fileResult}</div>
         <div className="top-buttonBox">
           <div className="selectButton">
             <Button
@@ -210,6 +235,7 @@ const UploadForm: React.FC<Props> = ({ className, ...props }) => {
             main
           </Button>
         </div>
+        <div className="errorBox">{result}</div>
       </div>
     </Root>
   );

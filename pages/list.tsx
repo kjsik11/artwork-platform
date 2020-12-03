@@ -7,7 +7,7 @@ import Link from 'next/link';
 const Root = styled.div`
   .artbox {
     max-width: 80%;
-    margin: 0 auto;
+    margin: 30px auto;
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
     grid-gap: 1rem;
